@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace DecisionTech.BasketPriceCalculator.UnitTests
 {
     [TestFixture]
-    public class BuyThreeMilksAndFourthIsFreeOfferTests
+    public class ProductDiscountOfferTests
     {
         [SetUp]
         public void Setup()

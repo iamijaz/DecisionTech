@@ -15,9 +15,18 @@ namespace DecisionTech.BasketPriceCalculator.Specs
             _sut = new Basket(new ProductPriceProvider(),
                 new DiscountCalculator(new List<IOffer>
                     {
-                        new PercentageDiscountOffer(new ProductPriceProvider()),
-                        new ProductDiscountOffer(new ProductPriceProvider(),
-                            new Product(ProductName.Milk),3)
+                        new PercentageDiscountOffer(
+                            new ProductPriceProvider(),
+                            new List<Product>
+                            {
+                                new Product(ProductName.Butter),
+                                new Product(ProductName.Bread)
+                            },
+                            50),
+                        new ProductDiscountOffer(
+                            new ProductPriceProvider(),
+                            new Product(ProductName.Milk),
+                            3)
                     }
                 ));
         }

@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace DecisionTech.BasketPriceCalculator.UnitTests
 {
-    public class BuyTwoButterAndGetOneBreadHalfPricedOfferTests
+    public class PercentageDiscountOfferTests
     {
         // System Under Test
         private PercentageDiscountOffer _sut;
@@ -13,7 +13,14 @@ namespace DecisionTech.BasketPriceCalculator.UnitTests
         [SetUp]
         public void Setup()
         {
-            _sut = new PercentageDiscountOffer(new ProductPriceProvider());
+            _sut = new PercentageDiscountOffer(
+                new ProductPriceProvider(),
+                new List<Product>
+                {
+                    new Product(ProductName.Butter),
+                    new Product(ProductName.Bread)
+                },
+                50);
         }
 
         [Test]
