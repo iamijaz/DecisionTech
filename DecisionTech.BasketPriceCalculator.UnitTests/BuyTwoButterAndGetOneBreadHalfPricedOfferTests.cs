@@ -8,12 +8,12 @@ namespace DecisionTech.BasketPriceCalculator.UnitTests
     public class BuyTwoButterAndGetOneBreadHalfPricedOfferTests
     {
         // System Under Test
-        private BuyTwoButterAndGetOneBreadHalfPricedOffer _sut;
+        private PercentageDiscountOffer _sut;
 
         [SetUp]
         public void Setup()
         {
-            _sut = new BuyTwoButterAndGetOneBreadHalfPricedOffer(new ProductPriceProvider());
+            _sut = new PercentageDiscountOffer(new ProductPriceProvider());
         }
 
         [Test]

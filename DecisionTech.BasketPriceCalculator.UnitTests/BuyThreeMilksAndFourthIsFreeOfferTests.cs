@@ -11,11 +11,12 @@ namespace DecisionTech.BasketPriceCalculator.UnitTests
         [SetUp]
         public void Setup()
         {
-            _sut = new BuyThreeMilksAndFourthIsFreeOffer(new ProductPriceProvider());
+            _sut = new ProductDiscountOffer(new ProductPriceProvider(),
+                new Product(ProductName.Milk),3);
         }
 
         //System Under Test
-        private BuyThreeMilksAndFourthIsFreeOffer _sut;
+        private ProductDiscountOffer _sut;
 
         [Test]
         public void WhenThereIsNoProductInTheBasketThenThereIsNoDiscount()

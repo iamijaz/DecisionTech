@@ -4,12 +4,12 @@ using DecisionTech.BasketPriceCalculator.Price;
 
 namespace DecisionTech.BasketPriceCalculator.Offers
 {
-    public class BuyTwoButterAndGetOneBreadHalfPricedOffer : IOffer
+    public class PercentageDiscountOffer : IOffer
     {
         private const int DiscountPercentage = 50;
         private readonly IProductPriceProvider _productPriceProvider;
 
-        public BuyTwoButterAndGetOneBreadHalfPricedOffer(IProductPriceProvider productPriceProvider)
+        public PercentageDiscountOffer(IProductPriceProvider productPriceProvider)
         {
             _productPriceProvider = productPriceProvider;
         }
