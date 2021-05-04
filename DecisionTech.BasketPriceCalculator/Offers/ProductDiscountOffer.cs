@@ -20,16 +20,25 @@ namespace DecisionTech.BasketPriceCalculator.Offers
 
         public decimal GetDiscount(List<BasketItem> basketItems)
         {
+            return IsValidQuantity(basketItems) ? CalculateDiscount(basketItems) : 0.0M;
+        }
+
+        private bool IsValidQuantity(IEnumerable<BasketItem> basketItems)
+        {
+            return TotalProducts(basketItems) > _minimumEligibleProducts;
+        }
+
+        private decimal CalculateDiscount(IEnumerable<BasketItem> basketItems)
+        {
+            var discountSeed = TotalProducts(basketItems) / (_minimumEligibleProducts + 1);
+            return _productPriceProvider.GetPrice(_offerProduct.ProductName) * discountSeed;
+        }
+
+        private  int TotalProducts(IEnumerable<BasketItem> basketItems)
+        {
             var totalProducts = basketItems.Where(item => item.Product.ProductName == _offerProduct.ProductName)
                 .Sum(item => item.Quantity);
-            if (totalProducts >= _minimumEligibleProducts)
-            {
-                var discountSeed = totalProducts / (_minimumEligibleProducts + 1);
-                var productPrice = _productPriceProvider.GetPrice(_offerProduct.ProductName);
-                return productPrice * discountSeed;
-            }
-
-            return 0;
+            return totalProducts;
         }
     }
 }

@@ -22,26 +22,35 @@ namespace DecisionTech.BasketPriceCalculator.Offers
             var offerProduct1 = _offerProducts.First();
             var offerProduct2 = _offerProducts.Skip(1).First();
 
-            if (basketItems.Any(item =>
-                _offerProducts.Select(p => p.ProductName).Contains(item.Product.ProductName) && item.Quantity == 0)) return 0;
+            return IsValidQuantity(basketItems) ? CalculateDiscount(basketItems, offerProduct1, offerProduct2) : 0.0M;
+        }
 
-            
-            var totalProduct1 = basketItems.Where(item => item.Product.ProductName == offerProduct1.ProductName)
-                .Sum(item => item.Quantity);
+        private bool IsValidQuantity(IEnumerable<BasketItem> basketItems)
+        {
+            return !basketItems.Any(item =>
+                _offerProducts.Select(p => p.ProductName).Contains(item.Product.ProductName) && item.Quantity == 0);
+        }
 
-            
-            var totalProduct2 = basketItems.Where(item => item.Product.ProductName == offerProduct2.ProductName)
-                .Sum(item => item.Quantity);
-
+        private decimal CalculateDiscount(IReadOnlyCollection<BasketItem> basketItems, Product offerProduct1, Product offerProduct2)
+        {
+            var totalProduct1 = TotalProducts(basketItems, offerProduct1);
             var product1Pairs = totalProduct1 / 2;
 
             var product2Price = _productPriceProvider.GetPrice(offerProduct2.ProductName);
             var product2Discount = product2Price / 100 * _discountPercentage;
 
+            var totalProduct2 = TotalProducts(basketItems, offerProduct2);
             if (product1Pairs >= totalProduct2)
                 return totalProduct2 * product2Discount;
 
             return product1Pairs * product2Discount;
+        }
+
+        private static int TotalProducts(IEnumerable<BasketItem> basketItems, Product product)
+        {
+            var totalProducts = basketItems.Where(item => item.Product.ProductName == product.ProductName)
+                .Sum(item => item.Quantity);
+            return totalProducts;
         }
     }
 }
