@@ -15,11 +15,22 @@ namespace DecisionTech.BasketPriceCalculator.Specs
             _sut = new Basket(new ProductPriceProvider(),
                 new DiscountCalculator(new List<IOffer>
                     {
-                        new BuyTwoButterAndGetOneBreadHalfPricedOffer(new ProductPriceProvider()),
-                        new BuyThreeMilksAndFourthIsFreeOffer(new ProductPriceProvider())
+                        new PercentageDiscountOffer(
+                            new ProductPriceProvider(),
+                            new List<Product>
+                            {
+                                new Product(ProductName.Butter),
+                                new Product(ProductName.Bread)
+                            },
+                            50),
+                        new ProductDiscountOffer(
+                            new ProductPriceProvider(),
+                            new Product(ProductName.Milk),
+                            3)
                     }
                 ));
         }
+
 
         // System Under Test
         private Basket _sut;
